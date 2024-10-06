@@ -24,3 +24,9 @@ p {
 img {
     display: block;
 }
+
+.nav {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 24px;
+}
