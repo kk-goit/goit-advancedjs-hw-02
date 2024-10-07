@@ -21,18 +21,18 @@ document.querySelector("form.form").addEventListener(
         const promise = new Promise((resolv, reject) => { 
             setTimeout(() => {
                 if (state == 'fulfilled') {
-                    resolv(`Fulfilled promise in ${delay}ms`);
+                    resolv(delay);
                 } else {
-                    reject(`Rejected promise in ${delay}ms`);
+                    reject(delay);
                 }   
              }, delay);
         });
         promise.then(
             value => { 
-                iziToast.success({message: value});
+                iziToast.success({message: `Fulfilled promise in ${value}ms`});
             },
             error => { 
-                iziToast.error({message: error});
+                iziToast.error({message: `Rejected promise in ${error}ms`});
             }
         );
 

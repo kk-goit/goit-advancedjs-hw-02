@@ -18,6 +18,7 @@ function convertMs(ms) {
 }
 
 let usrSelectedDate = null;
+let showTimerId = -1;
 // users data input and button
 const startButton = document.querySelector("button");
 const inputField = document.querySelector("input#datetime-picker");
@@ -27,10 +28,12 @@ const timerHours = document.querySelector("span.value[data-hours]");
 const timerMins = document.querySelector("span.value[data-minutes]");
 const timerSecs = document.querySelector("span.value[data-seconds]");
 
-function showNsetTimer() {
-    const startWork = Date.now();
-    const leftMs = usrSelectedDate - startWork;
+function showTimer() {
+    const leftMs = usrSelectedDate - Date.now();
     if (leftMs <= 400) {
+        // clear timer
+        clearInterval(showTimerId);
+
         // user selected date reached
         timerDays.textContent  = '00';
         timerHours.textContent = '00';
@@ -50,8 +53,6 @@ function showNsetTimer() {
     timerHours.textContent = formatData(data.hours);
     timerMins.textContent  = formatData(data.minutes);
     timerSecs.textContent  = formatData(data.seconds);
-
-    setTimeout(showNsetTimer, 1000 - (Date.now() - startWork));
 }  
 
 // Add flatpickr widget
@@ -102,9 +103,12 @@ startButton.onclick = (e) => {
     if (!isDateInFuture(usrSelectedDate)) {
         return;
     }
-    // Start the timer
+    
     inputField.disabled = true;
-    showNsetTimer();
+    // Start the timer
+    showTimerId = setInterval(showTimer, 1000);
+    // And show it immediately
+    showTimer();
 };
 
 // initial state
